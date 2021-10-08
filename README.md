@@ -38,7 +38,7 @@ test_manual.py::test_automated
 1/2 tests collected (1 deselected) in 0.00s
 ```
 
-### collect manual and automated tests 
+### collect manual and automated tests
 
 ```console
 $ pytest --collect-only -q --include-manual  # collect both manual and automated tests

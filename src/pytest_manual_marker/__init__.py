@@ -1,6 +1,7 @@
 """manual: mark tests which need a person to execute them"""
-
 import pytest
+
+MANUAL = "manual"
 
 
 def pytest_configure(config):
@@ -23,7 +24,31 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.mark.tryfirst
+@pytest.hookimpl(tryfirst=True)
+def pytest_runtest_setup(item: pytest.Item):
+    mark = item.get_closest_marker(MANUAL)
+    if mark is not None:
+        # todo: filter valid
+        pytest.xfail(MANUAL)
+
+
+@pytest.hookimpl(hookwrapper=True, tryfirst=True)
+def pytest_runtest_makereport(item, call):
+
+    outcome = yield
+    rep = outcome.get_result()
+    if call.excinfo and isinstance(call.excinfo.value, pytest.xfail.Exception):
+        if call.excinfo.value.msg == MANUAL:
+            rep.outcome = "manual"
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_report_teststatus(report):
+    if report.outcome == MANUAL:
+        return MANUAL, "M", MANUAL.upper()
+
+
+@pytest.hookimpl(tryfirst=True)
 def pytest_collection_modifyitems(config, items):
     # prevent on worker nodes (xdist)
     if hasattr(config, "workerinput"):
@@ -32,11 +57,11 @@ def pytest_collection_modifyitems(config, items):
     if config.getoption("include_manual"):
         return
 
-    is_manual = config.getoption("manual")
+    is_manual = config.getoption(MANUAL)
 
     keep, discard = [], []
     for item in items:
-        if (item.get_closest_marker("manual") is None) ^ is_manual:
+        if (item.get_closest_marker(MANUAL) is None) ^ is_manual:
             keep.append(item)
         else:
             discard.append(item)

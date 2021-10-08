@@ -1,4 +1,5 @@
-"""manual: Marker for marking tests as manual tests."""
+"""manual: mark tests which need a person to execute them"""
+
 import pytest
 
 
@@ -7,35 +8,35 @@ def pytest_configure(config):
 
 
 def pytest_addoption(parser):
-    """Adds options for the `manual` marker."""
-    parser.addoption(
+    group = parser.getgroup("manual", "configuration of manual tests")
+    group.addoption(
         "--manual",
         action="store_true",
         default=False,
-        help="Collect manual tests (only for --collect-only)",
+        help="deselect all automated tests, collects only manual tests",
     )
     parser.addoption(
         "--include-manual",
         action="store_true",
         default=False,
-        help="Collect also manual tests (only for --collect-only)",
+        help="disables the default deslection of manual tests",
     )
 
 
 @pytest.mark.tryfirst
 def pytest_collection_modifyitems(config, items):
-    # prevent on slave nodes (xdist)
-    if hasattr(config, "slaveinput"):
+    # prevent on worker nodes (xdist)
+    if hasattr(config, "workerinput"):
         return
 
-    if config.getvalue("include_manual"):
+    if config.getoption("include_manual"):
         return
 
-    is_manual = config.getvalue("manual")
+    is_manual = config.getoption("manual")
 
     keep, discard = [], []
     for item in items:
-        if bool(item.get_marker("manual")) == is_manual:
+        if (item.get_closest_marker("manual") is None) ^ is_manual:
             keep.append(item)
         else:
             discard.append(item)

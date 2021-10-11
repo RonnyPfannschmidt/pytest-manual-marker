@@ -1,4 +1,21 @@
-from _pytest.pytester import Pytester
+import attr
+import pytest
+
+try:
+    from _pytest.pytester import Pytester
+except ImportError:
+    from _pytest.pytester import Testdir
+
+    @attr.s(auto_attribs=True)
+    class Pytester:  # type: ignore
+        testdir: Testdir
+
+        def __getattr__(self, name):
+            return getattr(self.testdir, name)
+
+    @pytest.fixture
+    def pytester(testdir: Testdir) -> Pytester:
+        return Pytester(testdir)  # type: ignore
 
 
 def test_collection(pytester: Pytester):

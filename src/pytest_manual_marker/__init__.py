@@ -11,16 +11,10 @@ def pytest_configure(config):
 def pytest_addoption(parser):
     group = parser.getgroup("manual", "configuration of manual tests")
     group.addoption(
-        "--manual",
+        "--manual-only",
         action="store_true",
         default=False,
         help="deselect all automated tests, collects only manual tests",
-    )
-    parser.addoption(
-        "--include-manual",
-        action="store_true",
-        default=False,
-        help="disables the default deslection of manual tests",
     )
 
 
@@ -50,18 +44,13 @@ def pytest_report_teststatus(report):
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_collection_modifyitems(config, items):
-    # prevent on worker nodes (xdist)
-    if hasattr(config, "workerinput"):
-        return
 
-    if config.getoption("include_manual"):
+    if not config.getoption("--manual-only"):
         return
-
-    is_manual = config.getoption(MANUAL)
 
     keep, discard = [], []
     for item in items:
-        if (item.get_closest_marker(MANUAL) is None) ^ is_manual:
+        if item.get_closest_marker(MANUAL) is not None:
             keep.append(item)
         else:
             discard.append(item)

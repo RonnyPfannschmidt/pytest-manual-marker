@@ -1,9 +1,57 @@
 [build-system]
+build-backend = "hatchling.build"
 requires = [
-    "setuptools>45",
-    "setuptools_scm[toml]>=6.3.1",
-    "wheel",
+  "hatch-vcs",
+  "hatchling>=1.3.1",
 ]
-build-backend = "setuptools.build_meta"
 
-[tool.setuptools_scm]
+[project]
+name = "pytest_manual_marker"
+description = "pytest marker for marking manual tests"
+readme = "README.md"
+keywords = [
+  "manual",
+  "py.test",
+  "pytest",
+  "testing",
+]
+license = "mit"
+authors = [
+    { name = "Ronny Pfannschmidt", email= "rpfannsc@redhat.com"},
+    { name = "Martin Kourim",  email="mkourim@redhat.com" },
+]
+requires-python = ">=3.7"
+dependencies = [
+  "pytest>=7",
+  "regendoc>=0.9",
+]
+dynamic = [
+  "version",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Pytest",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Software Development :: Testing",
+]
+[project.urls]
+Homepage = "https://github.com/RonnyPfannschmidt/pytest-manual-marker"
+
+[project.entry-points.pytest11]
+manual_marker = "pytest_manual_marker"
+
+
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+]

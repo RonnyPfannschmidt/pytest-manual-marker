@@ -28,7 +28,6 @@ def pytest_runtest_setup(item: pytest.Item):
 
 @pytest.hookimpl(hookwrapper=True, tryfirst=True)
 def pytest_runtest_makereport(item, call):
-
     outcome = yield
     rep = outcome.get_result()
     if call.excinfo and isinstance(call.excinfo.value, pytest.xfail.Exception):
@@ -44,7 +43,6 @@ def pytest_report_teststatus(report):
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_collection_modifyitems(config, items):
-
     if not config.getoption("--manual-only"):
         return
 

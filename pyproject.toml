@@ -6,7 +6,7 @@ requires = [
 ]
 
 [project]
-name = "pytest_manual_marker"
+name = "pytest-manual-marker"
 description = "pytest marker for marking manual tests"
 readme = "README.md"
 keywords = [
@@ -21,13 +21,6 @@ authors = [
     { name = "Martin Kourim",  email="mkourim@redhat.com" },
 ]
 requires-python = ">=3.7"
-dependencies = [
-  "pytest>=7",
-  "regendoc>=0.9",
-]
-dynamic = [
-  "version",
-]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Framework :: Pytest",
@@ -40,13 +33,17 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Topic :: Software Development :: Testing",
 ]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "pytest>=7",
+  "regendoc>=0.9",
+]
 [project.urls]
 Homepage = "https://github.com/RonnyPfannschmidt/pytest-manual-marker"
-
 [project.entry-points.pytest11]
 manual_marker = "pytest_manual_marker"
-
-
 
 [tool.hatch.version]
 source = "vcs"

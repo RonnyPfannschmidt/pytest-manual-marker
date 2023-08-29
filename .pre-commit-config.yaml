@@ -1,11 +1,11 @@
 repos:
 -   repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.7.0
     hooks:
     - id: black
       args: [--safe, --quiet]
--   repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.9.0
+-   repo: https://github.com/asottile/reorder-python-imports
+    rev: v3.10.0
     hooks:
     -   id: reorder-python-imports
         args: [ "--application-directories=.:src" , --py3-plus]
@@ -17,20 +17,20 @@ repos:
     -   id: check-yaml
     -   id: debug-statements
 -   repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 6.1.0
     hooks:
     -   id: flake8
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
+    rev: v3.10.1
     hooks:
     - id: pyupgrade
       args: [--py37-plus]
 - repo: https://github.com/tox-dev/pyproject-fmt
-  rev: "0.9.2"
+  rev: "1.1.0"
   hooks:
     - id: pyproject-fmt
 -   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v1.2.0'
+    rev: 'v1.5.1'
     hooks:
     -   id: mypy
         additional_dependencies:

@@ -17,8 +17,8 @@ keywords = [
 ]
 license = "mit"
 authors = [
-    { name = "Ronny Pfannschmidt", email= "rpfannsc@redhat.com"},
-    { name = "Martin Kourim",  email="mkourim@redhat.com" },
+  { name = "Ronny Pfannschmidt", email = "rpfannsc@redhat.com" },
+  { name = "Martin Kourim", email = "mkourim@redhat.com" },
 ]
 requires-python = ">=3.7"
 classifiers = [
@@ -33,6 +33,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Software Development :: Testing",
 ]
 dynamic = [
@@ -42,15 +43,13 @@ dependencies = [
   "pytest>=7",
   "regendoc>=0.9",
 ]
-[project.urls]
-Homepage = "https://github.com/RonnyPfannschmidt/pytest-manual-marker"
-[project.entry-points.pytest11]
-manual_marker = "pytest_manual_marker"
+urls.Homepage = "https://github.com/RonnyPfannschmidt/pytest-manual-marker"
+entry-points.pytest11.manual_marker = "pytest_manual_marker"
 
 [tool.hatch.version]
 source = "vcs"
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "/src",
+  "/src",
 ]

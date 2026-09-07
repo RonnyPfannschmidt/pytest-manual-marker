@@ -1,6 +1,5 @@
 def test_collection(pytester):
-    pytester.makepyfile(
-        """
+    pytester.makepyfile("""
     import pytest
 
     @pytest.mark.manual
@@ -9,8 +8,7 @@ def test_collection(pytester):
 
     def test_automated():
         pass
-    """
-    )
+    """)
     res = pytester.runpytest("-m", "not manual")
     res.assert_outcomes(passed=1, failed=0, errors=0, skipped=0)
 

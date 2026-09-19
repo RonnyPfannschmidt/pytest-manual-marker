@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Python sdist/wheel
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v7
     - uses: actions/setup-python@v2
       with:
         python-version: "3.14"
@@ -42,7 +42,7 @@ jobs:
         install-from: ["dist/*.whl"]
         pytest: ["pytest~=7.0.0", "pytest~=7.1.0", "pytest~=6.2.0",  ]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:

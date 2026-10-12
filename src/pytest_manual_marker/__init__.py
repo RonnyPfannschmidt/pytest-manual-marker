@@ -1,4 +1,5 @@
 """manual: mark tests which need a person to execute them"""
+
 import pytest
 
 MANUAL = "manual"
@@ -30,9 +31,12 @@ def pytest_runtest_setup(item: pytest.Item):
 def pytest_runtest_makereport(item, call):
     outcome = yield
     rep = outcome.get_result()
-    if call.excinfo and isinstance(call.excinfo.value, pytest.xfail.Exception):
-        if call.excinfo.value.msg == MANUAL:
-            rep.outcome = "manual"
+    if (
+        call.excinfo
+        and isinstance(call.excinfo.value, pytest.xfail.Exception)
+        and call.excinfo.value.msg == MANUAL
+    ):
+        rep.outcome = "manual"
 
 
 @pytest.hookimpl(tryfirst=True)

@@ -11,9 +11,11 @@ Adds a different test outcome for manaual tests.
 # content of test_manual.py
 import pytest
 
+
 @pytest.mark.manual
 def test_manual():
     """this needs a opt in and will report manual as test status"""
+
 
 def test_automated():
     """this is a empty test just for shows"""

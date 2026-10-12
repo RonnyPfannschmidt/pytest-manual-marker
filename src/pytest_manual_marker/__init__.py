@@ -1,14 +1,17 @@
 """manual: mark tests which need a person to execute them"""
+
+from collections.abc import Generator
+
 import pytest
 
 MANUAL = "manual"
 
 
-def pytest_configure(config):
+def pytest_configure(config: pytest.Config) -> None:
     config.addinivalue_line("markers", __doc__.splitlines()[0])
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     group = parser.getgroup("manual", "configuration of manual tests")
     group.addoption(
         "--manual-only",
@@ -19,30 +22,40 @@ def pytest_addoption(parser):
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_runtest_setup(item: pytest.Item):
+def pytest_runtest_setup(item: pytest.Item) -> None:
     mark = item.get_closest_marker(MANUAL)
     if mark is not None:
         # todo: filter valid
         pytest.xfail(MANUAL)
 
 
-@pytest.hookimpl(hookwrapper=True, tryfirst=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    rep = outcome.get_result()
-    if call.excinfo and isinstance(call.excinfo.value, pytest.xfail.Exception):
-        if call.excinfo.value.msg == MANUAL:
-            rep.outcome = "manual"
+@pytest.hookimpl(wrapper=True, tryfirst=True)
+def pytest_runtest_makereport(
+    item: pytest.Item, call: pytest.CallInfo[None]
+) -> Generator[None, pytest.TestReport, pytest.TestReport]:
+    rep = yield
+    if (
+        call.excinfo
+        and isinstance(call.excinfo.value, pytest.xfail.Exception)
+        and call.excinfo.value.msg == MANUAL
+    ):
+        rep.outcome = MANUAL  # type: ignore[assignment]
+    return rep
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_report_teststatus(report):
+def pytest_report_teststatus(
+    report: pytest.TestReport,
+) -> tuple[str, str, str] | None:
     if report.outcome == MANUAL:
         return MANUAL, "M", MANUAL.upper()
+    return None
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_collection_modifyitems(config, items):
+def pytest_collection_modifyitems(
+    config: pytest.Config, items: list[pytest.Item]
+) -> None:
     if not config.getoption("--manual-only"):
         return
 

@@ -1,39 +1,24 @@
 repos:
--   repo: https://github.com/psf/black
-    rev: 23.11.0
-    hooks:
-    - id: black
-      args: [--safe, --quiet]
--   repo: https://github.com/asottile/reorder-python-imports
-    rev: v3.12.0
-    hooks:
-    -   id: reorder-python-imports
-        args: [ "--application-directories=.:src" , --py3-plus]
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: debug-statements
--   repo: https://github.com/PyCQA/flake8
-    rev: 6.1.0
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.0
     hooks:
-    -   id: flake8
--   repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
+    -   id: ruff-check
+        args: [--fix]
+    -   id: ruff-format
+-   repo: https://github.com/tox-dev/pyproject-fmt
+    rev: "v2.30.3"
     hooks:
-    - id: pyupgrade
-      args: [--py37-plus]
-- repo: https://github.com/tox-dev/pyproject-fmt
-  rev: "1.5.1"
-  hooks:
-    - id: pyproject-fmt
+    -   id: pyproject-fmt
 -   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v1.7.1'
+    rev: 'v2.4.0'
     hooks:
     -   id: mypy
         additional_dependencies:
-            - types-setuptools
-            - tokenize-rt==3.2.0
-            - pytest==6.2.4
+        -   pytest>=8

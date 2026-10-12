@@ -2,7 +2,7 @@
 build-backend = "hatchling.build"
 requires = [
   "hatch-vcs",
-  "hatchling>=1.3.1",
+  "hatchling>=1.27",
 ]
 
 [project]
@@ -15,42 +15,46 @@ keywords = [
   "pytest",
   "testing",
 ]
-license = "mit"
+license = "MIT"
+license-files = [ "LICENSE" ]
 authors = [
-    { name = "Ronny Pfannschmidt", email= "rpfannsc@redhat.com"},
-    { name = "Martin Kourim",  email="mkourim@redhat.com" },
+  { name = "Ronny Pfannschmidt", email = "opensource@ronnypfannschmidt.de" },
+  { name = "Martin Kourim", email = "mkourim@redhat.com" },
 ]
-requires-python = ">=3.7"
+requires-python = ">=3.11"
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Framework :: Pytest",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
   "Topic :: Software Development :: Testing",
 ]
 dynamic = [
   "version",
 ]
 dependencies = [
-  "pytest>=7",
+  "pytest>=8",
+]
+urls.Homepage = "https://github.com/RonnyPfannschmidt/pytest-manual-marker"
+entry-points.pytest11.manual_marker = "pytest_manual_marker"
+
+[dependency-groups]
+dev = [
+  "pytest",
   "regendoc>=0.9",
 ]
-[project.urls]
-Homepage = "https://github.com/RonnyPfannschmidt/pytest-manual-marker"
-[project.entry-points.pytest11]
-manual_marker = "pytest_manual_marker"
 
-[tool.hatch.version]
-source = "vcs"
-
-[tool.hatch.build.targets.sdist]
-include = [
-    "/src",
+[tool.hatch]
+version.source = "vcs"
+build.targets.sdist.include = [
+  "/src",
 ]
+
+[tool.ruff]
+lint.extend-select = [ "B", "I", "UP" ]
+lint.isort.force-single-line = true

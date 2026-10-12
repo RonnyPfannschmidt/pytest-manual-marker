@@ -1,9 +1,10 @@
 
 # pytest-manual-marker
 
-Pytest marker for marking manual tests. Adds options for collecting manual, automated (default) or both.
+Pytest marker for tests that need a person to execute them.
 
-Adds a different test outcome for manaual tests.
+Tests marked `manual` are not run; they are reported with their own
+`manual` outcome (`M` in the progress line) instead of passing or failing.
 
 ## Usage
 
@@ -11,47 +12,42 @@ Adds a different test outcome for manaual tests.
 # content of test_manual.py
 import pytest
 
+
 @pytest.mark.manual
 def test_manual():
-    """this needs a opt in and will report manual as test status"""
+    """this needs a person to run it and reports MANUAL as its outcome"""
+
 
 def test_automated():
-    """this is a empty test just for shows"""
+    """an empty automated test, for show"""
 ```
 
-
-### collect only manual tests
+### run everything, reporting manual tests
 
 ```console
-$ pytest --collect-only -q --manual
-test_manual.py::test_manual
-
-1/2 tests collected (1 deselected) in 0.00s
+$ pytest -q
+M.                                                                       [100%]
+1 passed, 1 manual in 0.01s
 ```
 
-### collect only automated tests
+### only manual tests
 
 ```console
-$ pytest --collect-only -q
-test_manual.py::test_automated
-
-1/2 tests collected (1 deselected) in 0.00s
+$ pytest -q --manual-only
+M                                                                        [100%]
+1 deselected, 1 manual in 0.01s
 ```
 
-### collect manual and automated tests
+### only automated tests
 
 ```console
-$ pytest --collect-only -q --include-manual  # collect both manual and automated tests
-test_manual.py::test_manual
-test_manual.py::test_automated
-
-2 tests collected in 0.00s
+$ pytest -q -m "not manual"
+.                                                                        [100%]
+1 passed, 1 deselected in 0.00s
 ```
 
 ## Install
 
-Install this plugin::
-
 ```console
-! pip install pytest-manual-marker
+$ pip install pytest-manual-marker
 ```

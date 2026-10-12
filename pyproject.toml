@@ -51,3 +51,9 @@ source = "vcs"
 include = [
     "/src",
 ]
+
+[dependency-groups]
+dev = [
+  "pytest",
+  "regendoc>=0.9",
+]

@@ -17,7 +17,7 @@ jobs:
       with:
         # hatch-vcs derives the version from tags
         fetch-depth: 0
-    - uses: astral-sh/setup-uv@v10.3.0
+    - uses: astral-sh/setup-uv@v10.3.3
     - run: uv build
     - run: uvx twine check --strict dist/*
     - uses: actions/upload-artifact@v7
@@ -35,7 +35,7 @@ jobs:
         pytest: ["pytest==8.0.*", "pytest"]
     steps:
     - uses: actions/checkout@v7
-    - uses: astral-sh/setup-uv@v10.3.0
+    - uses: astral-sh/setup-uv@v10.3.3
     - uses: actions/download-artifact@v8
       with:
         name: dist

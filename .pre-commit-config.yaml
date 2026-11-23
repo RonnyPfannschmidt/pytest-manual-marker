@@ -7,13 +7,13 @@ repos:
     -   id: check-yaml
     -   id: debug-statements
 -   repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.5
+    rev: v0.17.6
     hooks:
     -   id: ruff-check
         args: [--fix]
     -   id: ruff-format
 -   repo: https://github.com/tox-dev/pyproject-fmt
-    rev: "v2.30.6"
+    rev: "v2.31.2"
     hooks:
     -   id: pyproject-fmt
 -   repo: https://github.com/pre-commit/mirrors-mypy
